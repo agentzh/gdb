@@ -209,6 +209,7 @@ python_string_to_target_python_string (PyObject *obj)
 char *
 python_string_to_host_string (PyObject *obj)
 {
+#ifdef IS_PY3K
   PyObject *str;
   char *result;
 
@@ -219,6 +220,9 @@ python_string_to_host_string (PyObject *obj)
   result = unicode_to_encoded_string (str, host_charset ());
   Py_DECREF (str);
   return result;
+#else
+  return xstrdup (PyString_AsString (obj));
+#endif
 }
 
 /* Return true if OBJ is a Python string or unicode object, false
@@ -245,12 +249,7 @@ gdbpy_obj_to_string (PyObject *obj)
 
   if (str_obj != NULL)
     {
-#ifdef IS_PY3K
       char *msg = python_string_to_host_string (str_obj);
-#else
-      char *msg = xstrdup (PyString_AsString (str_obj));
-#endif
-
       Py_DECREF (str_obj);
       return msg;
     }
