@@ -151,7 +151,7 @@ thpy_switch (PyObject *self, PyObject *args)
 
   THPY_REQUIRE_VALID (thread_obj);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       switch_to_thread (thread_obj->thread->ptid);
     }

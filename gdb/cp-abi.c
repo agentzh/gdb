@@ -111,7 +111,7 @@ value_rtti_type (struct value *v, int *full,
 
   if ((current_cp_abi.rtti_type) == NULL)
     return NULL;
-  TRY_CATCH (e, RETURN_MASK_ERROR)
+  TRY_CATCH_NOSIG (e, RETURN_MASK_ERROR)
     {
       ret = (*current_cp_abi.rtti_type) (v, full, top, using_enc);
     }

@@ -575,7 +575,7 @@ gdbpy_parameter (PyObject *self, PyObject *args)
 
   newarg = concat ("show ", arg, (char *) NULL);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       found = lookup_cmd_composition (newarg, &alias, &prefix, &cmd);
     }
@@ -646,7 +646,7 @@ execute_gdb_command (PyObject *self, PyObject *args, PyObject *kw)
       to_string = cmp;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       /* Copy the argument text in case the command modifies it.  */
       char *copy = xstrdup (arg);
@@ -727,7 +727,7 @@ gdbpy_decode_line (PyObject *self, PyObject *args)
   cleanups = make_cleanup (null_cleanup, NULL);
 
   sals.sals = NULL;
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (arg)
 	{
@@ -829,7 +829,7 @@ gdbpy_parse_and_eval (PyObject *self, PyObject *args)
   if (!PyArg_ParseTuple (args, "s", &expr_str))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       result = parse_and_eval (expr_str);
     }
@@ -851,7 +851,7 @@ gdbpy_find_pc_line (PyObject *self, PyObject *args)
   if (!PyArg_ParseTuple (args, GDB_PY_LLU_ARG, &pc_llu))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct symtab_and_line sal;
       CORE_ADDR pc;
@@ -1102,7 +1102,7 @@ gdbpy_write (PyObject *self, PyObject *args, PyObject *kw)
 				     &stream_type))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       switch (stream_type)
         {
@@ -1179,7 +1179,7 @@ gdbpy_print_stack (void)
       /* PyErr_Print doesn't necessarily end output with a newline.
 	 This works because Python's stdout/stderr is fed through
 	 printf_filtered.  */
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  begin_line ();
 	}
@@ -1196,7 +1196,7 @@ gdbpy_print_stack (void)
       msg = gdbpy_exception_to_string (ptype, pvalue);
       type = gdbpy_obj_to_string (ptype);
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  if (msg == NULL)
 	    {

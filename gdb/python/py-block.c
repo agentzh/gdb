@@ -378,7 +378,7 @@ gdbpy_block_for_pc (PyObject *self, PyObject *args)
   if (!PyArg_ParseTuple (args, GDB_PY_LLU_ARG, &pc))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       cust = find_pc_compunit_symtab (pc);
 

@@ -135,7 +135,7 @@ objfpy_get_build_id (PyObject *self, void *closure)
 
   OBJFPY_REQUIRE_VALID (obj);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       build_id = build_id_bfd_get (objfile->obfd);
     }
@@ -393,7 +393,7 @@ objfpy_add_separate_debug_file (PyObject *self, PyObject *args, PyObject *kw)
   if (!PyArg_ParseTupleAndKeywords (args, kw, "s", keywords, &file_name))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       bfd *abfd = symfile_bfd_open (file_name);
 

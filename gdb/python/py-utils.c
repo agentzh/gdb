@@ -318,7 +318,7 @@ get_addr_from_python (PyObject *obj, CORE_ADDR *addr)
     {
       volatile struct gdb_exception except;
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  *addr = value_as_address (value_object_to_value (obj));
 	}

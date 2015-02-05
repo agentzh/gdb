@@ -24,10 +24,12 @@
 #ifdef HAVE_SIGSETJMP
 #define SIGJMP_BUF		sigjmp_buf
 #define SIGSETJMP(buf)		sigsetjmp((buf), 1)
+#define SIGSETJMP_NOSIG(buf)	sigsetjmp((buf), 0)
 #define SIGLONGJMP(buf,val)	siglongjmp((buf), (val))
 #else
 #define SIGJMP_BUF		jmp_buf
 #define SIGSETJMP(buf)		setjmp(buf)
+#define SIGSETJMP_NOSIG(buf)	setjmp(buf)
 #define SIGLONGJMP(buf,val)	longjmp((buf), (val))
 #endif
 

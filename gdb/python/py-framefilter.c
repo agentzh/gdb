@@ -203,7 +203,7 @@ py_print_type (struct ui_out *out, struct value *val)
 {
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct type *type;
       struct ui_file *stb;
@@ -257,7 +257,7 @@ py_print_value (struct ui_out *out, struct value *val,
     {
       struct type *type = NULL;
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  type = check_typedef (value_type (val));
 	}
@@ -280,7 +280,7 @@ py_print_value (struct ui_out *out, struct value *val,
 
   if (should_print)
     {
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  struct ui_file *stb;
 	  struct cleanup *cleanup;
@@ -376,7 +376,7 @@ py_print_single_arg (struct ui_out *out,
   else
     val = fv;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct cleanup *cleanups = make_cleanup (null_cleanup, NULL);
 
@@ -511,7 +511,7 @@ enumerate_args (PyObject *iter,
 
   opts.deref_ref = 1;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       annotate_frame_args ();
     }
@@ -578,7 +578,7 @@ enumerate_args (PyObject *iter,
 	      goto error;
 	    }
 
-	  TRY_CATCH (except, RETURN_MASK_ALL)
+	  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	    {
 	      read_frame_arg (sym, frame, &arg, &entryarg);
 	    }
@@ -612,7 +612,7 @@ enumerate_args (PyObject *iter,
 	    {
 	      if (arg.entry_kind != print_entry_values_only)
 		{
-		  TRY_CATCH (except, RETURN_MASK_ALL)
+		  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 		    {
 		      ui_out_text (out, ", ");
 		      ui_out_wrap_hint (out, "    ");
@@ -664,7 +664,7 @@ enumerate_args (PyObject *iter,
       item = PyIter_Next (iter);
       if (item != NULL)
 	{
-	  TRY_CATCH (except, RETURN_MASK_ALL)
+	  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	    {
 	      ui_out_text (out, ", ");
 	    }
@@ -678,7 +678,7 @@ enumerate_args (PyObject *iter,
       else if (PyErr_Occurred ())
 	goto error;
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  annotate_arg_end ();
 	}
@@ -761,7 +761,7 @@ enumerate_locals (PyObject *iter,
       /* If the object did not provide a value, read it.  */
       if (val == NULL)
 	{
-	  TRY_CATCH (except, RETURN_MASK_ALL)
+	  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	    {
 	      val = read_var_value (sym, frame);
 	    }
@@ -781,7 +781,7 @@ enumerate_locals (PyObject *iter,
 	  if (print_args_field || args_type != NO_VALUES)
 	    make_cleanup_ui_out_tuple_begin_end (out, NULL);
 	}
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  if (! ui_out_is_mi_like_p (out))
 	    {
@@ -838,7 +838,7 @@ enumerate_locals (PyObject *iter,
 
       do_cleanups (locals_cleanups);
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  ui_out_text (out, "\n");
 	}
@@ -954,7 +954,7 @@ py_print_args (PyObject *filter,
 
   make_cleanup_ui_out_list_begin_end (out, "args");
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       annotate_frame_args ();
       if (! ui_out_is_mi_like_p (out))
@@ -971,7 +971,7 @@ py_print_args (PyObject *filter,
 	== EXT_LANG_BT_ERROR)
       goto args_error;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (! ui_out_is_mi_like_p (out))
 	ui_out_text (out, ")");
@@ -1042,7 +1042,7 @@ py_print_frame (PyObject *filter, int flags,
   if (frame == NULL)
     goto error;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       gdbarch = get_frame_arch (frame);
     }
@@ -1117,7 +1117,7 @@ py_print_frame (PyObject *filter, int flags,
 
       slot = (struct frame_info **) htab_find_slot (levels_printed,
 						    frame, INSERT);
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  level = frame_relative_level (frame);
 
@@ -1150,7 +1150,7 @@ py_print_frame (PyObject *filter, int flags,
 	 print nothing.  */
       if (opts.addressprint && has_addr)
 	{
-	  TRY_CATCH (except, RETURN_MASK_ALL)
+	  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	    {
 	      annotate_frame_address ();
 	      ui_out_field_core_addr (out, "addr", gdbarch, address);
@@ -1209,7 +1209,7 @@ py_print_frame (PyObject *filter, int flags,
 		}
 
 
-	      TRY_CATCH (except, RETURN_MASK_ALL)
+	      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 		{
 		  annotate_frame_function_name ();
 		  if (function == NULL)
@@ -1242,7 +1242,7 @@ py_print_frame (PyObject *filter, int flags,
   /* File name/source/line number information.  */
   if (print_frame_info)
     {
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  annotate_frame_source_begin ();
 	}
@@ -1269,7 +1269,7 @@ py_print_frame (PyObject *filter, int flags,
 		    }
 
 		  make_cleanup (xfree, filename);
-		  TRY_CATCH (except, RETURN_MASK_ALL)
+		  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 		    {
 		      ui_out_wrap_hint (out, "   ");
 		      ui_out_text (out, " at ");
@@ -1300,7 +1300,7 @@ py_print_frame (PyObject *filter, int flags,
 	      if (py_line != Py_None)
 		{
 		  line = PyLong_AsLong (py_line);
-		  TRY_CATCH (except, RETURN_MASK_ALL)
+		  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 		    {
 		      ui_out_text (out, ":");
 		      annotate_frame_source_line ();
@@ -1324,7 +1324,7 @@ py_print_frame (PyObject *filter, int flags,
      elided frames, so if MI output detected do not send newline.  */
   if (! ui_out_is_mi_like_p (out))
     {
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  annotate_frame_end ();
 	  ui_out_text (out, "\n");
@@ -1481,7 +1481,7 @@ gdbpy_apply_frame_filter (const struct extension_language_defn *extlang,
   if (!gdb_python_initialized)
     return EXT_LANG_BT_NO_FILTERS;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       gdbarch = get_frame_arch (frame);
     }

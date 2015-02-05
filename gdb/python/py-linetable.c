@@ -179,7 +179,7 @@ ltpy_get_pcs_for_line (PyObject *self, PyObject *args)
   if (! PyArg_ParseTuple (args, GDB_PY_LL_ARG, &py_line))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       pcs = find_pcs_for_symtab_line (symtab, py_line, &best_entry);
     }

@@ -217,7 +217,7 @@ archpy_disassemble (PyObject *self, PyObject *args, PyObject *kw)
           return NULL;  /* PyList_Append Sets the exception.  */
         }
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
         {
           insn_len = gdb_print_insn (gdbarch, pc, memfile, NULL);
         }

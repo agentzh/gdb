@@ -345,7 +345,7 @@ typy_fields_items (PyObject *self, enum gdbpy_iter_kind kind)
   struct type *type = ((type_object *) py_type)->type;
   struct type *checked_type = type;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       CHECK_TYPEDEF (checked_type);
     }
@@ -451,7 +451,7 @@ typy_strip_typedefs (PyObject *self, PyObject *args)
   struct type *type = ((type_object *) self)->type;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = check_typedef (type);
     }
@@ -470,7 +470,7 @@ typy_get_composite (struct type *type)
 
   for (;;)
     {
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  CHECK_TYPEDEF (type);
 	}
@@ -535,7 +535,7 @@ typy_array_1 (PyObject *self, PyObject *args, int is_vector)
       return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       array = lookup_array_range_type (type, n1, n2);
       if (is_vector)
@@ -569,7 +569,7 @@ typy_pointer (PyObject *self, PyObject *args)
   struct type *type = ((type_object *) self)->type;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = lookup_pointer_type (type);
     }
@@ -650,7 +650,7 @@ typy_reference (PyObject *self, PyObject *args)
   struct type *type = ((type_object *) self)->type;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = lookup_reference_type (type);
     }
@@ -682,7 +682,7 @@ typy_const (PyObject *self, PyObject *args)
   struct type *type = ((type_object *) self)->type;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = make_cv_type (1, 0, type, NULL);
     }
@@ -698,7 +698,7 @@ typy_volatile (PyObject *self, PyObject *args)
   struct type *type = ((type_object *) self)->type;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = make_cv_type (0, 1, type, NULL);
     }
@@ -714,7 +714,7 @@ typy_unqualified (PyObject *self, PyObject *args)
   struct type *type = ((type_object *) self)->type;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = make_cv_type (0, 0, type, NULL);
     }
@@ -730,7 +730,7 @@ typy_get_sizeof (PyObject *self, void *closure)
   struct type *type = ((type_object *) self)->type;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       check_typedef (type);
     }
@@ -745,7 +745,7 @@ typy_lookup_typename (const char *type_name, const struct block *block)
   struct type *type = NULL;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (!strncmp (type_name, "struct ", 7))
 	type = lookup_struct (type_name + 7, NULL);
@@ -784,7 +784,7 @@ typy_lookup_type (struct demangle_component *demangled,
       if (! type)
 	return NULL;
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  /* If the demangled_type matches with one of the types
 	     below, run the corresponding function and save the type
@@ -845,7 +845,7 @@ typy_legacy_template_argument (struct type *type, const struct block *block,
       return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       /* Note -- this is not thread-safe.  */
       info = cp_demangled_name_to_comp (TYPE_NAME (type), &err);
@@ -919,7 +919,7 @@ typy_template_argument (PyObject *self, PyObject *args)
 	}
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = check_typedef (type);
       if (TYPE_CODE (type) == TYPE_CODE_REF)
@@ -950,7 +950,7 @@ typy_template_argument (PyObject *self, PyObject *args)
       return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       val = value_of_variable (sym, block);
     }
@@ -967,7 +967,7 @@ typy_str (PyObject *self)
   long length = 0;
   PyObject *result;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct cleanup *old_chain;
       struct ui_file *stb;
@@ -1015,7 +1015,7 @@ typy_richcompare (PyObject *self, PyObject *other, int op)
     result = Py_EQ;
   else
     {
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  result = types_deeply_equal (type1, type2);
 	}

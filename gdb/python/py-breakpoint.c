@@ -136,7 +136,7 @@ bppy_set_enabled (PyObject *self, PyObject *newvalue, void *closure)
   if (cmp < 0)
     return -1;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (cmp == 1)
 	enable_breakpoint (self_bp->bp);
@@ -242,7 +242,7 @@ bppy_set_task (PyObject *self, PyObject *newvalue, void *closure)
       if (! gdb_py_int_as_long (newvalue, &id))
 	return -1;
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  valid_id = valid_task_id (id);
 	}
@@ -282,7 +282,7 @@ bppy_delete_breakpoint (PyObject *self, PyObject *args)
 
   BPPY_REQUIRE_VALID (self_bp);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       delete_breakpoint (self_bp->bp);
     }
@@ -321,7 +321,7 @@ bppy_set_ignore_count (PyObject *self, PyObject *newvalue, void *closure)
   if (value < 0)
     value = 0;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       set_ignore_count (self_bp->number, (int) value, 0);
     }
@@ -448,7 +448,7 @@ bppy_set_condition (PyObject *self, PyObject *newvalue, void *closure)
 	return -1;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       set_breakpoint_condition (self_bp->bp, exp, 0);
     }
@@ -483,7 +483,7 @@ bppy_get_commands (PyObject *self, void *closure)
   chain = make_cleanup_ui_file_delete (string_file);
 
   ui_out_redirect (current_uiout, string_file);
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       print_command_lines (current_uiout, breakpoint_commands (bp), 0);
     }
@@ -644,7 +644,7 @@ bppy_init (PyObject *self, PyObject *args, PyObject *kwargs)
   bppy_pending_object->number = -1;
   bppy_pending_object->bp = NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       char *copy = xstrdup (spec);
       struct cleanup *cleanup = make_cleanup (xfree, copy);

@@ -175,7 +175,7 @@ valpy_dereference (PyObject *self, PyObject *args)
   volatile struct gdb_exception except;
   PyObject *result = NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct value *res_val;
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
@@ -203,7 +203,7 @@ valpy_referenced_value (PyObject *self, PyObject *args)
   volatile struct gdb_exception except;
   PyObject *result = NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct value *self_val, *res_val;
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
@@ -239,7 +239,7 @@ valpy_get_address (PyObject *self, void *closure)
 
   if (!val_obj->address)
     {
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  struct value *res_val;
 	  struct cleanup *cleanup
@@ -292,7 +292,7 @@ valpy_get_dynamic_type (PyObject *self, void *closure)
       return obj->dynamic_type;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct value *val = obj->value;
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
@@ -364,7 +364,7 @@ valpy_lazy_string (PyObject *self, PyObject *args, PyObject *kw)
 				    &user_encoding, &length))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
 
@@ -407,7 +407,7 @@ valpy_string (PyObject *self, PyObject *args, PyObject *kw)
 				    &user_encoding, &errors, &length))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       LA_GET_STRING (value, &buffer, &length, &char_type, &la_encoding);
     }
@@ -442,7 +442,7 @@ valpy_do_cast (PyObject *self, PyObject *args, enum exp_opcode op)
       return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct value *val = ((value_object *) self)->value;
       struct value *res_val;
@@ -524,7 +524,7 @@ value_has_field (struct value *v, PyObject *field)
       return -1;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       val_type = value_type (v);
       val_type = check_typedef (val_type);
@@ -673,7 +673,7 @@ valpy_getitem (PyObject *self, PyObject *key)
 	}
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct value *tmp = self_value->value;
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
@@ -751,7 +751,7 @@ valpy_call (PyObject *self, PyObject *args, PyObject *keywords)
   struct value *mark = value_mark ();
   PyObject *result = NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       ftype = check_typedef (value_type (function));
     }
@@ -790,7 +790,7 @@ valpy_call (PyObject *self, PyObject *args, PyObject *keywords)
 	}
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (mark);
       struct value *return_value;
@@ -817,7 +817,7 @@ valpy_str (PyObject *self)
   get_user_print_options (&opts);
   opts.deref_ref = 0;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct ui_file *stb = mem_fileopen ();
       struct cleanup *old_chain = make_cleanup_ui_file_delete (stb);
@@ -844,7 +844,7 @@ valpy_get_is_optimized_out (PyObject *self, void *closure)
   int opt = 0;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       opt = value_optimized_out (value);
     }
@@ -864,7 +864,7 @@ valpy_get_is_lazy (PyObject *self, void *closure)
   int opt = 0;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       opt = value_lazy (value);
     }
@@ -883,7 +883,7 @@ valpy_fetch_lazy (PyObject *self, PyObject *args)
   struct value *value = ((value_object *) self)->value;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (value_lazy (value))
 	value_fetch_lazy (value);
@@ -929,7 +929,7 @@ valpy_binop (enum valpy_opcode opcode, PyObject *self, PyObject *other)
   volatile struct gdb_exception except;
   PyObject *result = NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct value *arg1, *arg2;
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
@@ -1106,7 +1106,7 @@ valpy_negative (PyObject *self)
   volatile struct gdb_exception except;
   PyObject *result = NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       /* Perhaps overkill, but consistency has some virtue.  */
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
@@ -1134,7 +1134,7 @@ valpy_absolute (PyObject *self)
   volatile struct gdb_exception except;
   int isabs = 1;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct cleanup *cleanup = make_cleanup_value_free_to_mark (value_mark ());
 
@@ -1160,7 +1160,7 @@ valpy_nonzero (PyObject *self)
   struct type *type;
   int nonzero = 0; /* Appease GCC warning.  */
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       type = check_typedef (value_type (self_value->value));
 
@@ -1191,7 +1191,7 @@ valpy_invert (PyObject *self)
   struct value *val = NULL;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       val = value_complement (((value_object *) self)->value);
     }
@@ -1262,7 +1262,7 @@ valpy_richcompare (PyObject *self, PyObject *other, int op)
 	return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct value *value_other, *mark = value_mark ();
       struct cleanup *cleanup;
@@ -1329,7 +1329,7 @@ valpy_int (PyObject *self)
   LONGEST l = 0;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (!is_integral_type (type))
 	error (_("Cannot convert value to int."));
@@ -1351,7 +1351,7 @@ valpy_long (PyObject *self)
   LONGEST l = 0;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       CHECK_TYPEDEF (type);
 
@@ -1375,7 +1375,7 @@ valpy_float (PyObject *self)
   double d = 0;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       CHECK_TYPEDEF (type);
 
@@ -1436,7 +1436,7 @@ convert_value_from_python (PyObject *obj)
 
   gdb_assert (obj != NULL);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (PyBool_Check (obj))
 	{
@@ -1554,7 +1554,7 @@ gdbpy_history (PyObject *self, PyObject *args)
   if (!PyArg_ParseTuple (args, "i", &i))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       res_val = access_value_history (i);
     }

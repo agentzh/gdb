@@ -197,7 +197,7 @@ sympy_needs_frame (PyObject *self, void *closure)
 
   SYMPY_REQUIRE_VALID (self, symbol);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       result = symbol_read_needs_frame (symbol);
     }
@@ -264,7 +264,7 @@ sympy_value (PyObject *self, PyObject *args)
       return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       if (frame_obj != NULL)
 	{
@@ -378,7 +378,7 @@ gdbpy_lookup_symbol (PyObject *self, PyObject *args, PyObject *kw)
       struct frame_info *selected_frame;
       volatile struct gdb_exception except;
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  selected_frame = get_selected_frame (_("No frame selected."));
 	  block = get_frame_block (selected_frame, NULL);
@@ -386,7 +386,7 @@ gdbpy_lookup_symbol (PyObject *self, PyObject *args, PyObject *kw)
       GDB_PY_HANDLE_EXCEPTION (except);
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       symbol = lookup_symbol (name, block, domain, &is_a_field_of_this);
     }
@@ -436,7 +436,7 @@ gdbpy_lookup_global_symbol (PyObject *self, PyObject *args, PyObject *kw)
 				     &domain))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       symbol = lookup_global_symbol (name, NULL, domain);
     }
