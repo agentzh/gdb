@@ -105,7 +105,7 @@ stpy_convert_to_value  (PyObject *self, PyObject *args)
       return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       val = value_at_lazy (self_string->type, self_string->address);
     }

@@ -217,7 +217,7 @@ pretty_print_one_value (PyObject *printer, struct value **out_value)
   PyObject *result = NULL;
 
   *out_value = NULL;
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       result = PyObject_CallMethodObjArgs (printer, gdbpy_to_string_cst, NULL);
       if (result)
@@ -805,7 +805,7 @@ gdbpy_get_varobj_pretty_printer (struct value *value)
   PyObject *pretty_printer = NULL;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       value = value_copy (value);
     }

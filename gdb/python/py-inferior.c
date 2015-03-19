@@ -399,7 +399,7 @@ infpy_threads (PyObject *self, PyObject *args)
 
   INFPY_REQUIRE_VALID (inf_obj);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     update_thread_list ();
   GDB_PY_HANDLE_EXCEPTION (except);
 
@@ -514,7 +514,7 @@ infpy_read_memory (PyObject *self, PyObject *args, PyObject *kw)
       || get_addr_from_python (length_obj, &length) < 0)
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       buffer = xmalloc (length);
 
@@ -588,7 +588,7 @@ infpy_write_memory (PyObject *self, PyObject *args, PyObject *kw)
   else if (get_addr_from_python (length_obj, &length) < 0)
     goto fail;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       write_memory_with_notification (addr, (gdb_byte *) buffer, length);
     }
@@ -760,7 +760,7 @@ infpy_search_memory (PyObject *self, PyObject *args, PyObject *kw)
       goto fail;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       found = target_search_memory (start_addr, length,
 				    buffer, pattern_size,

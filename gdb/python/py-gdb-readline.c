@@ -39,7 +39,7 @@ gdbpy_readline_wrapper (FILE *sys_stdin, FILE *sys_stdout,
   char *p = NULL, *q;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     p = command_line_input (prompt, 0, "python");
 
   /* Detect user interrupt (Ctrl-C).  */

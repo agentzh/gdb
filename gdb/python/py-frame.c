@@ -103,7 +103,7 @@ frapy_is_valid (PyObject *self, PyObject *args)
   struct frame_info *frame = NULL;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       frame = frame_object_to_frame_info (self);
     }
@@ -127,7 +127,7 @@ frapy_name (PyObject *self, PyObject *args)
   PyObject *result;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -163,7 +163,7 @@ frapy_type (PyObject *self, PyObject *args)
   enum frame_type type = NORMAL_FRAME;/* Initialize to appease gcc warning.  */
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -184,7 +184,7 @@ frapy_arch (PyObject *self, PyObject *args)
   frame_object *obj = (frame_object *) self;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
     }
@@ -203,7 +203,7 @@ frapy_unwind_stop_reason (PyObject *self, PyObject *args)
   volatile struct gdb_exception except;
   enum unwind_stop_reason stop_reason;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
     }
@@ -224,7 +224,7 @@ frapy_pc (PyObject *self, PyObject *args)
   struct frame_info *frame;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -248,7 +248,7 @@ frapy_read_register (PyObject *self, PyObject *args)
   if (!PyArg_ParseTuple (args, "s", &regnum_str))
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct frame_info *frame;
       int regnum;
@@ -279,7 +279,7 @@ frapy_block (PyObject *self, PyObject *args)
   const struct block *block = NULL, *fn_block;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
       block = get_frame_block (frame, NULL);
@@ -318,7 +318,7 @@ frapy_function (PyObject *self, PyObject *args)
   struct frame_info *frame;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -345,7 +345,7 @@ frame_info_to_frame_object (struct frame_info *frame)
   if (frame_obj == NULL)
     return NULL;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
 
       /* Try to get the previous frame, to determine if this is the last frame
@@ -385,7 +385,7 @@ frapy_older (PyObject *self, PyObject *args)
   volatile struct gdb_exception except;
   PyObject *prev_obj = NULL;   /* Initialize to appease gcc warning.  */
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -415,7 +415,7 @@ frapy_newer (PyObject *self, PyObject *args)
   volatile struct gdb_exception except;
   PyObject *next_obj = NULL;   /* Initialize to appease gcc warning.  */
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -445,7 +445,7 @@ frapy_find_sal (PyObject *self, PyObject *args)
   volatile struct gdb_exception except;
   PyObject *sal_obj = NULL;   /* Initialize to appease gcc warning.  */
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -502,7 +502,7 @@ frapy_read_var (PyObject *self, PyObject *args)
 	    }
 	}
 
-      TRY_CATCH (except, RETURN_MASK_ALL)
+      TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
 	{
 	  FRAPY_REQUIRE_VALID (self, frame);
 
@@ -535,7 +535,7 @@ frapy_read_var (PyObject *self, PyObject *args)
       return NULL;
     }
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, frame);
 
@@ -554,7 +554,7 @@ frapy_select (PyObject *self, PyObject *args)
   struct frame_info *fi;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       FRAPY_REQUIRE_VALID (self, fi);
 
@@ -574,7 +574,7 @@ gdbpy_newest_frame (PyObject *self, PyObject *args)
   struct frame_info *frame = NULL;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       frame = get_current_frame ();
     }
@@ -592,7 +592,7 @@ gdbpy_selected_frame (PyObject *self, PyObject *args)
   struct frame_info *frame = NULL;
   volatile struct gdb_exception except;
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       frame = get_selected_frame ("No frame is currently selected.");
     }

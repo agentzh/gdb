@@ -637,7 +637,7 @@ cmdpy_init (PyObject *self, PyObject *args, PyObject *kw)
 
   Py_INCREF (self);
 
-  TRY_CATCH (except, RETURN_MASK_ALL)
+  TRY_CATCH_NOSIG (except, RETURN_MASK_ALL)
     {
       struct cmd_list_element *cmd;
 

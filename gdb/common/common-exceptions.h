@@ -158,6 +158,16 @@ extern int exceptions_state_mc_action_iter_1 (void);
      while (exceptions_state_mc_action_iter ()) \
        while (exceptions_state_mc_action_iter_1 ())
 
+/* A much more efficient version of TRY_CATCH without saving signal masks */
+#define TRY_CATCH_NOSIG(EXCEPTION,MASK) \
+     { \
+       SIGJMP_BUF *buf = \
+	 exceptions_state_mc_init (&(EXCEPTION), (MASK)); \
+       SIGSETJMP_NOSIG (*buf); \
+     } \
+     while (exceptions_state_mc_action_iter ()) \
+       while (exceptions_state_mc_action_iter_1 ())
+
 /* *INDENT-ON* */
 
 /* Hook to allow client-specific actions to be performed prior to
